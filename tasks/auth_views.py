@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from rest_framework import status
 from .serializers import SignupSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import AllowAny
 
 # 🔹 Generate JWT
 def get_tokens(user):
@@ -15,7 +16,12 @@ def get_tokens(user):
     }
 
 # 🔹 SIGNUP
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+# 🔹 SIGNUP
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def signup(request):
     serializer = SignupSerializer(data=request.data)
 
@@ -38,6 +44,7 @@ def signup(request):
 
 # 🔹 LOGIN
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def login(request):
     username = request.data.get("username")
     password = request.data.get("password")
